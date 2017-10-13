@@ -1,0 +1,20 @@
+<view>
+  <p>成绩查询</p>
+  <view class="table">
+  <view class="tr bg-w">
+    <view class="th">head1</view>
+    <view class="th">head2</view>
+    <view class="th ">head3</view>
+  </view>
+  <view class="tr bg-g">
+    <view class="td">1</view>
+    <view class="td">2</view>
+    <view class="td">3</view>
+  </view>
+  <view class="tr">
+    <view class="td">4</view>
+    <view class="td">5</view>
+    <view class="td">6</view>
+  </view>
+</view>
+</view>

@@ -1,0 +1,36 @@
+/**index.wxss**/
+body,html,page{
+  height: 100%;
+}
+.menu{
+  height: 100%;
+}
+.left{
+  width: 25%;
+  display: inline-block;
+  padding: 2px 1%;
+  vertical-align: top;
+  background: #eee;
+  height: 100%;
+}
+.right{
+  width: 70%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 2px 1% 2px 0;
+}
+
+.menu-left-item{
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+}
+
+.menu_right_item{
+  line-height: 60px;
+  width: 100%;
+  font-size: 12px;
+  border-bottom: 1px solid #eee;
+}

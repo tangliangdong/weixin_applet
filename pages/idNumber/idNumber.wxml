@@ -1,0 +1,6 @@
+<view class="idNumber">
+  <view class="section">
+    <input placeholder="四六级准考证" type='number' bindinput='idNumberInput'/>
+  </view>
+  <button bindtap='saveIdNumber'>保存</button>
+</view>

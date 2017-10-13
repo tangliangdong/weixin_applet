@@ -1,0 +1,9 @@
+<view class="school">
+  <view class="jump-btns">
+    <button bindtap='jumpSchedule' type='primary'>查询个人课表</button>
+    <button bindtap='jumpGrade' type='primary'>查询成绩</button>
+    
+    
+    
+  </view>
+</view>

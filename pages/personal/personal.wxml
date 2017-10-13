@@ -1,0 +1,5 @@
+<view class="personal">
+  <view>
+    <button bindtap="jumpBindNumber">绑定四六级</button>
+  </view>
+</view>
