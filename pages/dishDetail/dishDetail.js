@@ -1,18 +1,27 @@
-// pages/gradeView.js
+// pages/dishDetail/dishDetail.js
+
+
+var img_list = ['../../image/1.jpg', '../../image/2.jpg', '../../image/3.jpg'];
+var name = "鸡蛋";
+var price = '2';
+var introduce = 'Hello world';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    list: img_list,
+    name: name,
+    price: price,
+    introduce: introduce
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    console.log(options);
   },
 
   /**

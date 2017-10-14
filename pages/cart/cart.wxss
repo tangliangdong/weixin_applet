@@ -1,0 +1,51 @@
+/* pages/cart/cart.wxss */
+.cart-card{
+  width: 96%;
+  margin: 10rpx 2% 0;
+  border: 1px solid #eee;
+}
+
+.cart-card>image{
+  width: 150rpx;
+  height: 150rpx;
+  margin: 10rpx;
+}
+
+.left-d{
+  padding: 10rpx 0 0 0;
+  display: inline-block;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.left-d text{
+  margin: 10rpx 20rpx 10rpx 10rpx;
+}
+
+.left-handle{
+  margin: 40rpx 0 0 0;
+}
+.add-btn{
+  display: inline-block;
+  width: 50rpx;
+  height: 50rpx;
+  margin: 0;
+}
+.dish-amount-input{
+  display: inline-block;
+  width: 50rpx;
+  margin: 0 10rpx;
+}
+.settlement{
+  height: 100rpx;
+  width: 100%;
+  margin: 20rpx;
+  border: 1px solid #eee;
+}
+.settlement-btn{
+  height: 100rpx;
+  width: 250rpx;
+  float: right;
+  background: red;
+  color: white;
+}

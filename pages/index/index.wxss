@@ -6,12 +6,14 @@ body,html,page{
   height: 100%;
 }
 .left{
-  width: 25%;
+  width: 27%;
   display: inline-block;
-  padding: 2px 1%;
   vertical-align: top;
   background: #eee;
   height: 100%;
+}
+#selected_item{
+  background: #fff;
 }
 .right{
   width: 70%;
@@ -29,8 +31,27 @@ body,html,page{
 }
 
 .menu_right_item{
-  line-height: 60px;
   width: 100%;
   font-size: 12px;
   border-bottom: 1px solid #eee;
+}
+
+.menu_right_item>.item-image{
+  width: 60px; 
+  height: 60px;
+  margin: 5px 10px 0 5px;
+}
+
+.menu_right_item>.sub_content{
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  margin: 5px 0 0 0;
+}
+.sub_content>.dish-name{
+
+}
+.sub_content>.dish-price{
+  margin: 20px 0 0 0;
+  display: block;
 }

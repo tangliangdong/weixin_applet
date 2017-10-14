@@ -2,7 +2,67 @@
 //获取应用实例
 const app = getApp();
 var flag = true;
-var list = ['加香区', '炒面区','特色区'];
+var list = [{
+  id: 1,
+  name: '加香区',
+  isClicked: true,
+}, {
+  id: 2,
+  name: '炒面区',
+  isClicked: false,
+},{
+  id: 3,
+  name: '特色区',
+  isClicked: false,
+}];
+var content_arr = {
+  id: 1,
+  list: [{
+    id: 1,
+    name:'鸡蛋',
+    price: 2,
+    image: '../../image/1.jpg',
+  }, {
+    id: 2,
+    name: '鸡蛋牛肉卷',
+    price: 3,
+    image: '../../image/2.jpg',
+  }, {
+    id: 3,
+    name: '鸡腿',
+    price: 5,
+    image: '../../image/3.jpg',
+  }]
+};
+
+var chaomian = {
+  id: 2,
+  list: [{
+    id: 5,
+    name: '方便面',
+    price: 2,
+    image: '../../image/4.jpg',
+  }, {
+    id: 6,
+    name: '龙门粉丝',
+    price: 3,
+    image: '../../image/5.jpg',
+  }, {
+    id: 7,
+    name: '芝心年糕',
+    price: 3,
+    image: '../../image/6.jpg',
+  }]
+}
+var tese = {
+  id: 2,
+  list: [{
+    id: 5,
+    name: '上校鸡块',
+    price: 2,
+    image: '../../image/2.jpg',
+  }]
+}
 
 Page({
   data: {
@@ -10,7 +70,9 @@ Page({
     color: 'window',
     text: 'first page',
     textName: 'Hello World',
+    prevClickedIndex: 0,
     list: list,
+    content_arr: content_arr,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -26,7 +88,6 @@ Page({
       withCredentials: true,
       success: res => {
         app.globalData.userInfo = res.userInfo;
-        console.log(res);
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
@@ -34,7 +95,6 @@ Page({
       }
     })
     if (app.globalData.userInfo) {
-      console.log(app.globalData);
 
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -44,7 +104,6 @@ Page({
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
-        console.log(res.userInfo);
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
@@ -64,33 +123,37 @@ Page({
       })
     }
   },
-  clickName: function(event){
-    console.log('点击了文字');
-    var color = '';
-    if(flag){
-      color = 'window-red';
-      flag = false;
-    }else{
-      color = 'window';
-      flag = true;
-    }
-    this.setData({
-      color: color,
-      textName: 'Love',
-    });
-  },
   onShow: function(){
     console.log('first page show');
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
   dish_detail: function(e){
     console.log(e);
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../dishDetail/dishDetail?id=' + id,
+    });
+  },
+  selectMenu: function(e){
+    console.log(e);
+    var index = e.currentTarget.dataset.index;
+    this.data.list[index].isClicked = true;
+    this.data.list[this.data.prevClickedIndex].isClicked = false;
+    var content_list = [];
+    switch(index){
+      case 0:
+        content_list = content_arr;
+        break; 
+      case 1:
+        content_list = chaomian;
+        break;
+      case 2:
+        content_list = tese;
+        break;
+    }
+    this.setData({
+      list: this.data.list,
+      prevClickedIndex: index,
+      content_arr: content_list,
+    });
   }
 })

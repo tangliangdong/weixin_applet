@@ -1,0 +1,31 @@
+/* pages/dishDetail/dishDetail.wxss */
+.dish-detail-image{
+  width: 100%;
+  
+}
+.scroll-view_H{
+  white-space: nowrap;
+}
+.scroll-view-item{
+  height: 300rpx;
+}
+.scroll-view-item_H{
+  display: inline-block;
+  width: 100%;
+}
+
+text{
+  font-size: 14px;
+}
+.detail-name{
+  margin: 0px 0 20px 10px;
+}
+.detail-price{
+  display: block;
+  margin: 10px 0 10px 10px;
+}
+.detail-introduce{
+  display: block;
+  margin: 0 0 0 10px;
+  width: 80%;
+}

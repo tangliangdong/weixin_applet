@@ -1,21 +1,18 @@
 <!--index.wxml-->
 <view class="menu">
   <view class="left">
-    <view wx:for="{{list}}" class='menu-left-item'>
-      {{item}}
+    <view wx:for="{{list}}" class='menu-left-item' id="{{item.isClicked? 'selected_item':''}}" bindtap='selectMenu' data-index='{{index}}'>
+      {{item.name}}
     </view>
 
   </view>
   <view class="right">
-    <view class='menu_right_item'>
-      <image ></image>
-      鸡蛋
-    </view>
-    <view class='menu_right_item'>
-      鸡蛋牛肉卷
-    </view>
-    <view class='menu_right_item' data-id="3" bindtap='dish_detail'>
-      鸡腿
+    <view class='menu_right_item' wx:for="{{content_arr.list}}" bindtap='dish_detail' data-id='{{item.id}}'>
+      <image class='item-image' src='{{item.image}}'></image>
+      <view class='sub_content'>
+        <text class='dish-name'>{{item.name}}</text>
+        <text class='dish-price'>{{item.price}}</text>
+      </view>
     </view>
   </view>
 </view>
