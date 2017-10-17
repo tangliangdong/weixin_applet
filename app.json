@@ -6,7 +6,8 @@
     "pages/personal/personal",
     "pages/schedule/schedule",
     "pages/gradeView/gradeView",
-    "pages/dishDetail/dishDetail"
+    "pages/dishDetail/dishDetail",
+    "pages/indent/indent"
   ],
   "window":{
     "backgroundTextStyle":"light",

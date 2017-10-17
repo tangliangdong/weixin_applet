@@ -1,5 +1,18 @@
 <view class="personal">
+  <view class='header' style="background-image:url('../../image/1.jpg')">
+    <view class='person-info'>
+      <image src="../../image/1.jpg" class='avator' ></image>
+      <view class='person-info-text'>
+        <text>昵称：小唐棒棒糖</text>
+      </view>
+       
+      
+    </view>
+  </view>
   <view>
-    <button bindtap="jumpBindNumber">绑定四六级</button>
+    <view class="personal-item" wx:for="{{setup_list}}" bindtap='{{item.method}}'>
+      <text>{{item.text}}</text>
+      <image src='../../image/left_arrow.png'></image>
+    </view>
   </view>
 </view>

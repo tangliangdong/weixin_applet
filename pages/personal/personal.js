@@ -1,11 +1,22 @@
 const app = getApp();
-var flag = true;
+
+var setup_list = [
+  {
+    text: "已购订单",
+    method: 'indent',
+  },
+  {
+    text: "测试",
+    method: 'indent',
+  }
+]
 
 Page({
   data: {
     motto: 'Hello World',
     color: 'window',
     text: 'first page',
+    setup_list: setup_list,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -16,9 +27,9 @@ Page({
       url: '../logs/logs'
     })
   },
-  jumpBindNumber: function(event){
+  indent: function(e) {
     wx.navigateTo({
-      url: '/pages/idNumber/idNumber',
+      url: '/pages/indent/indent',
     })
   }
 })

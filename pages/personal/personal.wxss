@@ -1,0 +1,43 @@
+page{
+  height: 100%;
+}
+.personal{
+  height: 100%;
+}
+.header{
+  position: relative;
+  
+  height: 400rpx;
+}
+.person-info{
+  position: absolute;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  top: 50%;
+  left: 50%;
+}
+
+.avator{
+  border-radius: 80px;
+  width: 150rpx;
+  height: 150rpx;
+}
+.person-info-text text{
+  font-size: 16px;
+}
+
+.personal-item{
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.personal-item text{
+  margin: 20rpx 30rpx;
+  display: inline-block;
+}
+.personal-item image{
+  width: 40rpx;
+  height: 40rpx;
+  float: right;
+  margin: 20rpx 30rpx;
+}
