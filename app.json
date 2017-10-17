@@ -12,7 +12,7 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#BBDEF8",
-    "navigationBarTitleText": "applet",
+    "navigationBarTitleText": "微信点餐系统",
     "navigationBarTextStyle":"white"
   },
   "tabBar": {

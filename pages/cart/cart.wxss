@@ -49,3 +49,14 @@
   background: red;
   color: white;
 }
+
+.settlement .sum-price{
+  
+}
+
+.cart-page .remind{
+  text-align: center;
+  padding: 30rpx 0 30rpx;
+  font-size: 16px;
+  color: orange;
+}

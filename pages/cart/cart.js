@@ -1,26 +1,24 @@
 // pages/cart/cart.js
 
-var list = [{
-  id: 1,
-  name: '小青菜',
-  price: 2,
-  src: '../../image/1.jpg',
-  amount: 1,
-}, {
-  id: 2,
-  name: '年糕',
-  price: 5,
-  src: '../../image/4.jpg',
-  amount: 2,
-}, {
-  id: 3,
-  name: '鸳鸯锅',
-  price: 30,
-  src: '../../image/5.jpg',
-  amount: 1,
-}]
-var sum = 0;
-
+// var list = [{
+//   id: 1,
+//   name: '小青菜',
+//   price: 2,
+//   src: '../../image/1.jpg',
+//   amount: 1,
+// }, {
+//   id: 2,
+//   name: '年糕',
+//   price: 5,
+//   src: '../../image/4.jpg',
+//   amount: 2,
+// }, {
+//   id: 3,
+//   name: '鸳鸯锅',
+//   price: 30,
+//   src: '../../image/5.jpg',
+//   amount: 1,
+// }]
 
 Page({
 
@@ -28,58 +26,108 @@ Page({
    * 页面的初始数据
    */
   data: {
-    dish_list: list,
-    sum: sum,
+    dish_list: [],
+    sum: 0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    for(var i in list){
-      sum+= list[i].amount*list[i].price;
-    }
-    this.setData({
-      sum: sum,
-    })
-    console.log(sum);
+
   },
+
   // 增加菜的数量按钮
   plus_click: function(e){
     var index = e.currentTarget.dataset.index;
-    this.data.dish_list[index].amount++;
+    this.data.dish_list[index].count++;
     var Lsum = this.data.sum;
     Lsum += this.data.dish_list[index].price;
     this.setData({
       dish_list: this.data.dish_list,
       sum: Lsum,
     });
+    wx.getStorage({
+      key: 'dish_list',
+      success: function (res) {
+        var list = res.data;
+        list[index].count++;
+        wx.setStorage({
+          key: "dish_list",
+          data: list,
+        });
+      }
+    })
+    
   },
   // 减少菜的数量按钮
   minus_click: function(e){
+    var $this = this;
     var index = e.currentTarget.dataset.index;
-    this.data.dish_list[index].amount--;
+    this.data.dish_list[index].count--;
     var Lsum = this.data.sum;
     Lsum -= this.data.dish_list[index].price;
     this.setData({
       dish_list: this.data.dish_list,
       sum: Lsum,
     });
+    if (this.data.dish_list[index].count>0){
+      // 减少菜的数量
+      wx.getStorage({
+        key: 'dish_list',
+        success: function (res) {
+          var list = res.data;
+          list[index].count--;
+          wx.setStorage({
+            key: "dish_list",
+            data: list,
+          });
+        }
+      })
+    }else{ // 从缓存中删除菜
+      wx.getStorage({
+        key: 'dish_list',
+        success: function (res) {
+          var list = res.data;
+          list.splice(index,1);
+          wx.setStorage({
+            key: "dish_list",
+            data: list,
+          });
+          $this.setData({
+            dish_list: list,
+          });
+        }
+      })
+    }
   },
   // 结算按钮
   payment: function(e) {
-    wx.showToast({
-      title: '订单生成成功',
-      icon: 'success',
-      image: '',
-      duration: 2000,
-      mask: true,
+    wx.getStorage({
+      key: 'dish_list',
       success: function(res) {
-
+        var list = res.data;
+        var content = '';
+        for(var i in list){
+          content += list[i].dishname+'x'+list[i].count+'\n\r';
+        }
+        wx.showModal({
+          title: '确定生成订单？',
+          content: content,
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              wx.showToast({
+                title: '订单生成成功',
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          }
+        });
       },
-      fail: function(res) {},
-      complete: function(res) {},
     })
+    
   },
 
   /**
@@ -93,7 +141,22 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    var $this = this;
+    var sum = 0;
+    wx.getStorage({
+      key: 'dish_list',
+      success: function (res) {
+        console.log(res.data);
+        var list = res.data;
+        for (var i in list) {
+          sum += list[i].count * list[i].price;
+        }
+        $this.setData({
+          dish_list: list,
+          sum: sum,
+        });
+      }
+    });
   },
 
   /**

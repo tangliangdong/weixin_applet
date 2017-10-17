@@ -1,18 +1,19 @@
 //index.js
 //获取应用实例
 const app = getApp();
+var info = require('../../utils/info');
 var flag = true;
 var list = [{
   id: 1,
-  name: '加香区',
+  dish_type: '加香区',
   isClicked: true,
 }, {
   id: 2,
-  name: '炒面区',
+  dish_type: '炒面区',
   isClicked: false,
 },{
   id: 3,
-  name: '特色区',
+  dish_type: '特色区',
   isClicked: false,
 }];
 var content_arr = {
@@ -71,8 +72,8 @@ Page({
     text: 'first page',
     textName: 'Hello World',
     prevClickedIndex: 0,
-    list: list,
-    content_arr: content_arr,
+    list: [],
+    content_arr: [],
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -84,47 +85,38 @@ Page({
     })
   },
   onLoad: function () {
-    wx.getUserInfo({
-      withCredentials: true,
-      success: res => {
-        app.globalData.userInfo = res.userInfo;
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
+    var $this = this;
+    wx.request({
+      url: info.URL+'menus',
+      success: function(res){
+        console.log(res);
+        if(res.data.length>0){
+          res.data[0].isClicked = true;
+          $this.setData({
+            list: res.data
+          });
+          var id = res.data[0].id;
+          wx.request({
+            url: info.URL+'getDishes/'+id,
+            success: function (result) {
+              console.log(result);
+              if (result.data.length > 0) {
+                var data = {
+                  id: id,
+                  list: result.data
+                }
+                $this.setData({
+                  content_arr: data,
+                });
+              }
+            }
+          });
+        }
       }
     })
-    if (app.globalData.userInfo) {
-
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        withCredentials: true,
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
   },
   onShow: function(){
-    console.log('first page show');
+    
   },
   dish_detail: function(e){
     console.log(e);
@@ -135,25 +127,98 @@ Page({
   },
   selectMenu: function(e){
     console.log(e);
+    var $this = this;
     var index = e.currentTarget.dataset.index;
-    this.data.list[index].isClicked = true;
-    this.data.list[this.data.prevClickedIndex].isClicked = false;
-    var content_list = [];
-    switch(index){
-      case 0:
-        content_list = content_arr;
-        break; 
-      case 1:
-        content_list = chaomian;
-        break;
-      case 2:
-        content_list = tese;
-        break;
+    var id = e.currentTarget.dataset.id;
+    if(!this.data.list[index].isClicked){
+      this.data.list[index].isClicked = true;
+      this.data.list[this.data.prevClickedIndex].isClicked = false;
+      var content_list = [];
+      wx.request({
+        url: info.URL+'getDishes/' + id,
+        success: function (result) {
+          console.log(result);
+
+          if (result.data.length > 0) {
+            var data = {
+              id: id,
+              list: result.data
+            }
+            $this.setData({
+              content_arr: data,
+            });
+          }
+        }
+      });
+      this.setData({
+        list: this.data.list,
+        prevClickedIndex: index,
+        content_arr: content_list,
+      });
     }
-    this.setData({
-      list: this.data.list,
-      prevClickedIndex: index,
-      content_arr: content_list,
-    });
+  },
+  // 添加菜到购菜车
+  plus_click: function(e) {
+    var id = e.currentTarget.dataset.id;
+    var dishname = e.currentTarget.dataset.dishname;
+    var src = e.currentTarget.dataset.src;
+    var price = e.currentTarget.dataset.price;
+    var data = wx.getStorage({
+      key: 'dish_list',
+      success: function(res) {
+        console.log(res);
+        var list = res.data;
+        var flag = 0;
+        for(var i in list){
+          if(list[i].id===id){
+            flag = i;
+          }
+        }
+        if(flag===0){
+          // 没有之前购买的菜
+          list.push({
+            id: id,
+            count: 1,
+            dishname: dishname,
+            price: price,
+            src: src,
+          });
+          wx.setStorage({
+            key: 'dish_list',
+            data: list,
+          });
+        }else{ // 之前购买过，直接数量加1
+          list[flag].count++;
+          wx.setStorage({
+            key: 'dish_list',
+            data: list,
+          });
+        }
+        
+      },
+      fail: function() {
+        var list = [{
+          id: id,
+          count: 1,
+          dishname: dishname,
+          price: price,
+          src: src,
+        }];
+        wx.setStorage({
+          key: 'dish_list',
+          data: list,
+        });
+      },
+    })
+    
+    wx.showToast({
+      title: '成功添加',
+      icon: 'success',
+      duration: 1000,
+      mask: true,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
   }
 })

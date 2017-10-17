@@ -3,19 +3,19 @@
   <view class='cart-card' wx:for="{{dish_list}}" wx:key="item">
     <image src='{{item.src}}'></image>
     <view class='left-d'>
-      <text>{{item.name}}</text>
+      <text>{{item.dishname}}</text>
       <text>￥{{item.price}}</text>
       <view class='left-handle'>
         <image class='add-btn' bindtap='plus_click' data-index='{{index}}' src='../../image/plus.png'></image>
-        <input value='{{item.amount}}' class='dish-amount-input'></input>
-        <image class='add-btn' bindtap='minus_click' data-index='{{index}}' hidden="{{item.amount>0? false:true}}" src='../../image/minus.png'></image>
+        <input value='{{item.count}}' class='dish-amount-input'></input>
+        <image class='add-btn' bindtap='minus_click' data-index='{{index}}' hidden="{{item.count>0? false:true}}" src='../../image/minus.png'></image>
       </view>
     </view>
   </view>
-
+  <view class='remind' hidden='{{dish_list.length>0?true:false}}'>请在菜单中选购菜品</view>
   <view class='settlement'>
     <image src='../../image/cart.png' style='width: 80rpx;height: 80rpx'></image>
-    <text>￥{{sum}}</text>
-    <button class='settlement-btn' bindtap='payment'>结算</button>
+    <text class="sum-price">￥{{sum}}</text>
+    <button class='settlement-btn' bindtap='payment' disabled='{{dish_list.length==0?true:false}}'>结算</button>
   </view>
 </view>

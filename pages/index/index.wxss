@@ -48,8 +48,12 @@ body,html,page{
   vertical-align: top;
   margin: 5px 0 0 0;
 }
-.sub_content>.dish-name{
-
+.menu_right_item>.add-cart-btn{
+  display: block;
+  float: right;
+  width: 50rpx;
+  height: 50rpx;
+  margin: 40rpx 0 0 0;
 }
 .sub_content>.dish-price{
   margin: 20px 0 0 0;
