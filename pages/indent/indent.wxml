@@ -1,2 +1,7 @@
 <!--pages/indent/indent.wxml-->
-<text>已购订单</text>
+<view class='indent'>
+  <view class='indent-item' wx:for="{{indent_list}}" data-id="{{item.id}}" bindtap='jumpDetailIndent'>
+    <text class='time'>{{item.addTime}}</text>
+    <image src='../../image/left_arrow.png'></image>
+  </view>
+</view>

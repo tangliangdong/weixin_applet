@@ -1,6 +1,6 @@
 // pages/dishDetail/dishDetail.js
 
-
+var info = require('../../utils/info');
 var img_list = ['../../image/1.jpg', '../../image/2.jpg', '../../image/3.jpg'];
 var name = "鸡蛋";
 var price = '2';
@@ -11,10 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: img_list,
-    name: name,
-    price: price,
-    introduce: introduce
+    dish: {},
   },
 
   /**
@@ -22,6 +19,22 @@ Page({
    */
   onLoad: function (options) {
     console.log(options);
+    var id = options.id;
+    var $this = this;
+    wx:wx.request({
+      url: info.URL +'getDishDetail',
+      data: {
+        id: id, 
+      },
+      method: 'GET',
+      dataType: 'json',
+      success: function(res) {
+        console.log(res);
+        $this.setData({
+          dish: res.data,
+        })
+      },
+    })
   },
 
   /**

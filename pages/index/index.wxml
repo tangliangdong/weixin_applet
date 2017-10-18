@@ -10,10 +10,10 @@
     <view class='menu_right_item' wx:for="{{content_arr.list}}" bindtap='dish_detail' data-id='{{item.id}}'>
       <image class='item-image' src='{{item.src}}'></image>
       <view class='sub_content'>
-        <text class='dish-name'>{{item.dishname}}</text>
+        <text class='dish-name'>{{item.dish_name}}</text>
         <text class='dish-price'>{{item.dish_price}}</text>
       </view>
-      <image class='add-cart-btn' catchtap='plus_click' data-dishname='{{item.dishname}}' data-price='{{item.dish_price}}' data-src='{{item.src}}' data-id='{{item.id}}' src='../../image/plus.png'></image>
+      <image class='add-cart-btn' catchtap='plus_click' data-dishname='{{item.dish_name}}' data-price='{{item.dish_price}}' data-src='{{item.src}}' data-id='{{item.id}}' src='../../image/plus.png'></image>
     </view>
   </view>
 </view>

@@ -1,4 +1,5 @@
 //app.js
+var info = require('utils/info');
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -8,10 +9,56 @@ App({
 
     // 登录
     wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      success: function (res) {
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: info.URL+'login',
+            data: {
+              code: res.code
+            },
+            success: function(result){
+              console.log(result);
+              if (result.data.status===1){
+                wx.setStorage({
+                  key: 'userId',
+                  data: result.data.userId,
+                });
+              }
+            }
+          });
+
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res);
+              var userInfo = res.userInfo
+              var nickName = userInfo.nickName
+              var avatarUrl = userInfo.avatarUrl
+              var gender = userInfo.gender //性别 0：未知、1：男、2：女
+              var province = userInfo.province
+              var city = userInfo.city
+              var country = userInfo.country
+
+              wx.setStorage({
+                key: 'nikename',
+                data: nickName,
+              });
+              wx.setStorage({
+                key: 'avatarUrl',
+                data: avatarUrl,
+              })
+            }
+          })
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg)
+        }
       }
-    })
+    });
+    // wx.login({
+    //   success: res => {
+    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //   }
+    // })
     // 获取用户信息
     wx.getSetting({
       success: res => {

@@ -1,0 +1,13 @@
+<!--pages/indentDetail/indentDetail.wxml-->
+<view class='indentDetail'>
+  <view wx:for="{{indent}}" class='indentDetail_item'>
+  <image src='{{item.src}}'></image>
+    <view class='dish-info'>
+      <text>{{item.dish_name}}</text>
+      <text> x{{item.dish_count}}</text>
+      <text class='dish-price'>￥{{item.dish_price}}</text>
+      
+    </view>
+  </view>
+</view>
+

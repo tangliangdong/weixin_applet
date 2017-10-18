@@ -95,22 +95,40 @@ Page({
           $this.setData({
             list: res.data
           });
-          var id = res.data[0].id;
-          wx.request({
-            url: info.URL+'getDishes/'+id,
-            success: function (result) {
-              console.log(result);
-              if (result.data.length > 0) {
-                var data = {
-                  id: id,
-                  list: result.data
-                }
-                $this.setData({
-                  content_arr: data,
-                });
-              }
-            }
+          wx.setStorage({
+            key: 'menu',
+            data: res.data,
           });
+          for(var i in res.data[0].list) {
+            if (res.data[0].list[i].menu_id === res.data[0].id){
+              var list = {
+                id: res.data[0].id,
+                list: res.data[i].list,
+              }
+              $this.setData({
+                list: res.data,
+                prevClickedIndex: i,
+                content_arr: list,
+              });
+              break;
+            }
+          }
+          
+          // wx.request({
+          //   url: info.URL+'getDishes/'+id,
+          //   success: function (result) {
+          //     console.log(result);
+          //     if (result.data.length > 0) {
+          //       var data = {
+          //         id: id,
+          //         list: result.data
+          //       }
+          //       $this.setData({
+          //         content_arr: data,
+          //       });
+          //     }
+          //   }
+          // });
         }
       }
     })
@@ -119,14 +137,12 @@ Page({
     
   },
   dish_detail: function(e){
-    console.log(e);
     var id = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: '../dishDetail/dishDetail?id=' + id,
     });
   },
   selectMenu: function(e){
-    console.log(e);
     var $this = this;
     var index = e.currentTarget.dataset.index;
     var id = e.currentTarget.dataset.id;
@@ -134,39 +150,37 @@ Page({
       this.data.list[index].isClicked = true;
       this.data.list[this.data.prevClickedIndex].isClicked = false;
       var content_list = [];
-      wx.request({
-        url: info.URL+'getDishes/' + id,
-        success: function (result) {
-          console.log(result);
-
-          if (result.data.length > 0) {
-            var data = {
-              id: id,
-              list: result.data
+      wx.getStorage({
+        key: 'menu',
+        success: function(res) {
+          for(var i in res.data){
+            if (res.data[i].id===id){
+              var list = {
+                id: id,
+                list: res.data[i].list,
+              }
+              $this.setData({
+                list: $this.data.list,
+                prevClickedIndex: index,
+                content_arr: list,
+              });
+              break;
             }
-            $this.setData({
-              content_arr: data,
-            });
           }
-        }
-      });
-      this.setData({
-        list: this.data.list,
-        prevClickedIndex: index,
-        content_arr: content_list,
-      });
+        },
+      })
+      
     }
   },
   // 添加菜到购菜车
   plus_click: function(e) {
     var id = e.currentTarget.dataset.id;
-    var dishname = e.currentTarget.dataset.dishname;
+    var dish_name = e.currentTarget.dataset.dishname;
     var src = e.currentTarget.dataset.src;
     var price = e.currentTarget.dataset.price;
     var data = wx.getStorage({
       key: 'dish_list',
       success: function(res) {
-        console.log(res);
         var list = res.data;
         var flag = 0;
         for(var i in list){
@@ -179,7 +193,7 @@ Page({
           list.push({
             id: id,
             count: 1,
-            dishname: dishname,
+            dish_name: dish_name,
             price: price,
             src: src,
           });
@@ -200,7 +214,7 @@ Page({
         var list = [{
           id: id,
           count: 1,
-          dishname: dishname,
+          dish_name: dish_name,
           price: price,
           src: src,
         }];

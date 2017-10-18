@@ -1,15 +1,12 @@
-// pages/indent/indent.js
-
+// pages/indentDetail/indentDetail.js
 var info = require('../../utils/info');
-
 Page({
-  
 
   /**
    * 页面的初始数据
    */
   data: {
-    indent_list: [],
+    indent: [],
   
   },
 
@@ -17,7 +14,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    console.log(options);
+    var $this = this;
+    wx.request({
+      url: info.URL+'getDetailIndent',
+      data: {
+        id: options.id,
+      },
+      method: 'GET',
+      dataType: 'json',
+      success: function(res) {
+        console.log(res);
+        $this.setData({
+          indent: res.data,
+        })
+      },
+    });
   },
 
   /**
@@ -31,24 +43,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var $this = this;
-    var userId = wx.getStorageSync("userId");
-    wx.request({
-      url: info.URL + 'getIndent?userId=' + userId,
-      success: function(res){
-        console.log(res);
-        $this.setData({
-          indent_list: res.data,
-        })
-
-      }
-    })
-  },
-  jumpDetailIndent: function(e) {
-    var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../indentDetail/indentDetail?id='+id,
-    })
+  
   },
 
   /**

@@ -20,6 +20,8 @@
 //   amount: 1,
 // }]
 
+var info = require('../../utils/info');
+
 Page({
 
   /**
@@ -101,15 +103,41 @@ Page({
       })
     }
   },
+  // 绑定数量输入框
+  bindCount: function(e) {
+    console.log(e);
+    var $this = this;
+    var index = e.currentTarget.dataset.index;
+    var num = e.detail.value;
+    wx.getStorage({
+      key: 'dish_list',
+      success: function(res) {
+        var sum = 0;
+        var list = res.data;
+        list[index].count = num;
+        for (var i in list) {
+          sum += list[i].count * list[i].price;
+        }
+        wx.setStorage({
+          key: 'dish_list',
+          data: list,
+        })
+        $this.setData({
+          sum: sum,
+        })
+      },
+    })
+  },
   // 结算按钮
   payment: function(e) {
+    var $this = this;
     wx.getStorage({
       key: 'dish_list',
       success: function(res) {
         var list = res.data;
         var content = '';
         for(var i in list){
-          content += list[i].dishname+'x'+list[i].count+'\n\r';
+          content += list[i].dish_name+'x'+list[i].count+'\n\r';
         }
         wx.showModal({
           title: '确定生成订单？',
@@ -117,9 +145,39 @@ Page({
           success: function (res) {
             if (res.confirm) {
               console.log('用户点击确定');
-              wx.showToast({
-                title: '订单生成成功',
-              })
+              var dish_list = wx.getStorageSync('dish_list');
+              console.log(dish_list);
+              var ids = '';
+              for (var i in dish_list) {
+                ids += dish_list[i].id +":"+dish_list[i].count+ ',';
+              }
+              if (ids.length > 0) {
+                ids = ids.substr(0, ids.length - 1);
+              }
+              var userId = wx.getStorageSync('userId');
+              if(userId){
+                wx.request({
+                  url: info.URL + 'createOrder/' + userId + '?ids=' + ids +'&sumPrice='+$this.data.sum,
+                  success: function (res) {
+                    console.log(res);
+                    if (res.data.status === 1) {
+                      wx.showToast({
+                        title: '订单生成成功',
+                        icon: 'success',
+                      });
+                      wx.removeStorageSync('dish_list');
+                      $this.setData({
+                        'dish_list': [],
+                      })
+                    } else {
+                      wx.showToast({
+                        title: '订单生成成功',
+                        icon: 'loading',
+                      });
+                    }
+                  }
+                });
+              }
             } else if (res.cancel) {
               console.log('用户点击取消');
             }
@@ -134,13 +192,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    console.log('on show');
     var $this = this;
     var sum = 0;
     wx.getStorage({

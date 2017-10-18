@@ -17,6 +17,8 @@ Page({
     color: 'window',
     text: 'first page',
     setup_list: setup_list,
+    avatarUrl: '',
+    nikeName: '',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -25,11 +27,30 @@ Page({
   bindViewTap: function () {
     wx.navigateTo({
       url: '../logs/logs'
-    })
+    });
   },
   indent: function(e) {
     wx.navigateTo({
       url: '/pages/indent/indent',
+    })
+  },
+  onLoad: function(){
+    var $this = this;
+    wx.getStorage({
+      key: 'avatarUrl',
+      success: function(res) {
+        $this.setData({
+          avatarUrl: res.data,
+        })
+      },
+    });
+    wx.getStorage({
+      key: 'nikename',
+      success: function (res) {
+        $this.setData({
+          nikeName: res.data,
+        })
+      },
     })
   }
 })
