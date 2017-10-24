@@ -7,6 +7,8 @@ Page({
    */
   data: {
     indent: [],
+    order_number: 0,
+    addTime: '',
   
   },
 
@@ -16,6 +18,8 @@ Page({
   onLoad: function (options) {
     console.log(options);
     var $this = this;
+    
+
     wx.request({
       url: info.URL+'getDetailIndent',
       data: {
@@ -25,9 +29,21 @@ Page({
       dataType: 'json',
       success: function(res) {
         console.log(res);
+        var date = new Date(res.data.add_time * 1000);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() + ' ';
+        var h = date.getHours() + ':';
+        var m = date.getMinutes() + ':';
+        var s = date.getSeconds();
         $this.setData({
-          indent: res.data,
+          indent: res.data.list,
+          order_number: options.orderNumber,
+          addTime: Y + M + D + h + m + s,
+          remark: res.data.remark,
+          user_note: res.data.user_note,
         })
+        
       },
     });
   },

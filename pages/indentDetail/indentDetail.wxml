@@ -1,13 +1,23 @@
 <!--pages/indentDetail/indentDetail.wxml-->
 <view class='indentDetail'>
+  <view class='header'>
+    <text>订单号：{{order_number}}</text>
+    <text>创建时间：{{addTime}}</text></view>
   <view wx:for="{{indent}}" class='indentDetail_item'>
-  <image src='{{item.src}}'></image>
+    <image src='{{item.src}}'></image>
     <view class='dish-info'>
       <text>{{item.dish_name}}</text>
       <text> x{{item.dish_count}}</text>
       <text class='dish-price'>￥{{item.dish_price}}</text>
       
     </view>
+  </view>
+  <view class='user-remark' wx:if="{{user_note}}">
+    用户备注：<text >{{user_note}}</text>
+  </view>
+
+  <view class='user-remark' wx:if="{{remark}}">
+    管理员备注：<text>{{remark}}</text>
   </view>
 </view>
 

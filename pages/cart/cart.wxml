@@ -13,6 +13,9 @@
     </view>
   </view>
   <view class='remind' hidden='{{dish_list.length>0?true:false}}'>请在菜单中选购菜品</view>
+  <view class='remark'>
+    <textarea placeholder="订单备注" bindblur="bind_user_note"></textarea>
+  </view>
   <view class='settlement'>
     <image src='../../image/cart.png' style='width: 80rpx;height: 80rpx'></image>
     <text class="sum-price">￥{{sum}}</text>

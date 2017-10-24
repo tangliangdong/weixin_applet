@@ -50,6 +50,16 @@
   color: white;
 }
 
+.remark{
+  margin: 10rpx 10rpx 10rpx 20rpx;
+  border: 1px solid #eee;
+}
+
+.remark textarea{
+  font-size: 14px;
+  height: 100rpx;
+}
+
 .settlement .sum-price{
   
 }

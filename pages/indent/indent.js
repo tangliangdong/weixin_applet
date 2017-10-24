@@ -3,7 +3,6 @@
 var info = require('../../utils/info');
 
 Page({
-  
 
   /**
    * 页面的初始数据
@@ -46,8 +45,10 @@ Page({
   },
   jumpDetailIndent: function(e) {
     var id = e.currentTarget.dataset.id;
+    var order_number = e.currentTarget.dataset.order;
+    var add_time = e.currentTarget.dataset.addtime;
     wx.navigateTo({
-      url: '../indentDetail/indentDetail?id='+id,
+      url: '../indentDetail/indentDetail?id=' + id + '&orderNumber=' + order_number + '&add_time=' + add_time,
     })
   },
 

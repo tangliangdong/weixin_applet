@@ -1,10 +1,9 @@
 // pages/dishDetail/dishDetail.js
 
 var info = require('../../utils/info');
+
 var img_list = ['../../image/1.jpg', '../../image/2.jpg', '../../image/3.jpg'];
-var name = "鸡蛋";
-var price = '2';
-var introduce = 'Hello world';
+
 Page({
 
   /**

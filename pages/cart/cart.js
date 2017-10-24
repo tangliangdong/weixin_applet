@@ -22,6 +22,8 @@
 
 var info = require('../../utils/info');
 
+var user_note = '';
+
 Page({
 
   /**
@@ -157,7 +159,12 @@ Page({
               var userId = wx.getStorageSync('userId');
               if(userId){
                 wx.request({
-                  url: info.URL + 'createOrder/' + userId + '?ids=' + ids +'&sumPrice='+$this.data.sum,
+                  url: info.URL + 'createOrder/' + userId,
+                  data: {
+                    user_note: user_note,
+                    ids: ids,
+                    sumPrice: $this.data.sum
+                  },
                   success: function (res) {
                     console.log(res);
                     if (res.data.status === 1) {
@@ -186,6 +193,11 @@ Page({
       },
     })
     
+  },
+
+  bind_user_note: function(e) {
+    console.log(e);
+    user_note = e.detail.value;
   },
 
   /**

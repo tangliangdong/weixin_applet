@@ -5,10 +5,6 @@ var setup_list = [
     text: "已购订单",
     method: 'indent',
   },
-  {
-    text: "测试",
-    method: 'indent',
-  }
 ]
 
 Page({

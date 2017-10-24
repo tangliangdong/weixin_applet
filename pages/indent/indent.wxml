@@ -1,6 +1,6 @@
 <!--pages/indent/indent.wxml-->
 <view class='indent'>
-  <view class='indent-item' wx:for="{{indent_list}}" data-id="{{item.id}}" bindtap='jumpDetailIndent'>
+  <view class='indent-item' wx:for="{{indent_list}}" data-order="{{item.order_number}}" data-addtime='{{item.add_time}}' data-id="{{item.id}}" bindtap='jumpDetailIndent'>
     <text class='time'>{{item.addTime}}</text>
     <image src='../../image/left_arrow.png'></image>
   </view>
